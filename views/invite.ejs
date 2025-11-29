@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation - Sofia</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="invite-page">
+  <div class="container invite-container">
+    <section class="card glass invite-grid">
+      <div class="left-column">
+        <!-- Bloc affiche vidéo Frozen -->
+        <div class="video-wrapper">
+          <video autoplay muted loop playsinline controls style="width:100%; border-radius:16px;">
+            <source src="/video/invitation.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la vidéo.
+          </video>
+        </div>
+
+        <!-- Compteur J-... -->
+        <div class="countdown-box">
+          <span class="countdown-emoji">📍</span>
+          <span id="countdown-text">Chargement...</span>
+        </div>
+
+        <!-- Infos pratiques -->
+        <div class="infos-box">
+          <p class="infos-title">❗ Infos pratiques :</p>
+          <ul class="infos-list">
+            <li>Prévoyez des chaussettes pour les trampolines</li>
+            <li>Les parents peuvent rester ou revenir</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="right-column">
+        <div class="child-name top">
+          <h2><%= child_name %></h2>
+        </div>
+
+        <div class="invitation-text">
+          <p>Coucou, c’est Sofia 💙</p>
+
+          <p>Comme tu me connais, je déborde de joie et de bonne humeur du matin au soir !<br>
+          Et même si je suis déjà en CP…<br>
+          je continue à faire des petites bêtises,<br>
+          à rigoler pour rien<br>
+          et à manger du chocolat (et plein de bonbons 🍬🍫)<br>
+          dès que personne ne regarde 😋</p>
+
+          <p>Pour mon anniversaire, on organise une méga fête à Fantazy Park ! 🎉</p>
+
+          <p>Il y aura :<br>
+          🛝 un énorme toboggan,<br>
+          🌀 un labyrinthe où on va sûrement se perdre en rigolant,<br>
+          🤡 des clowns trop marrants,<br>
+          🏃‍♀️ des jeux partout,<br>
+          🧗‍♀️ un mur d’escalade,<br>
+          🤸‍♂️ des trampolines,<br>
+          ❄️ et plein de surprises magiques façon Reine des Neiges !</p>
+
+          <p>J’espère vraiment que tu viendras t’amuser avec moi 💙✨</p>
+        </div>
+
+        <div class="response-card glass">
+          <div class="response-section right">
+          <% const alreadyResponded = status !== 'pending'; %>
+          <div class="status-message" id="status-message">
+            <% if (alreadyResponded) { %>
+              Tu as déjà répondu : <strong class="status-label <%= status %>"><%= status.toUpperCase() %></strong> (tu peux changer ta réponse)
+            <% } else { %>
+              Dis-moi si tu viens :
+            <% } %>
+          </div>
+
+          <div class="button-group">
+            <button class="btn primary large" id="btn-oui">Je viens 🎉</button>
+            <button class="btn secondary large" id="btn-non">Je ne peux pas venir 😢</button>
+          </div>
+
+          <div class="feedback" id="feedback"></div>
+          </div>
+        </div>
+
+        <div class="location-card glass">
+          <h3>Fantazy Park</h3>
+          <img src="/img/fantazy-park.jpg" alt="Fantazy Park" class="location-image">
+          <p class="location-text">
+            Un méga parc magique, blindé d’attractions et rempli de surprises !
+          </p>
+          <a href="https://share.google/YddvurH3C0z441cFv" target="_blank" class="btn primary full">📍 Voir le lieu</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    window.INVITE_TOKEN = "<%= token %>";
+    window.INITIAL_STATUS = "<%= status %>";
+  </script>
+  <script src="/js/invite.js"></script>
+</body>
+</html>

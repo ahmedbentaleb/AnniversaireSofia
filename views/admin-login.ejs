@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Connexion</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="admin-page">
+  <div class="container auth-container glass">
+    <h1>Connexion Admin</h1>
+    <% if (error) { %>
+      <div class="alert"><%= error %></div>
+    <% } %>
+    <form method="POST" action="/admin/login" class="form">
+      <label>Email</label>
+      <input type="email" name="email" placeholder="admin@sofia.local" value="admin@sofia.local" required />
+
+      <label>Mot de passe</label>
+      <input type="password" name="password" placeholder="sofia123" value="sofia123" required />
+
+      <button class="btn primary" type="submit">Se connecter</button>
+    </form>
+  </div>
+</body>
+</html>
