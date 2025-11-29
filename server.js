@@ -16,7 +16,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'sofia-session-secret';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme';
-const DB_PATH = path.join(__dirname, 'data', 'invitations.db');
+// Chemin de la base : en prod, on peut rediriger vers un disque persistant via DB_PATH
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'invitations.db');
 const INVITE_BASE_URL = process.env.INVITE_BASE_URL || `http://localhost:${PORT}`;
 const ORGANIZER_EMAIL = process.env.ORGANIZER_EMAIL || 'asmaaelhouboub@gmail.com';
 
