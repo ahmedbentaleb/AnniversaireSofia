@@ -12,14 +12,16 @@
   --shadow: 0 10px 30px rgba(19, 84, 122, 0.15);
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
   font-family: 'Poppins', Arial, sans-serif;
-  background: radial-gradient(circle at 20% 20%, rgba(90,200,250,0.2), transparent 35%),
-              radial-gradient(circle at 80% 0%, rgba(58,123,213,0.18), transparent 30%),
-              linear-gradient(135deg, #f6fbff 0%, #dcefff 100%);
+  background: radial-gradient(circle at 20% 20%, rgba(90, 200, 250, 0.2), transparent 35%),
+    radial-gradient(circle at 80% 0%, rgba(58, 123, 213, 0.18), transparent 30%),
+    linear-gradient(135deg, #f6fbff 0%, #dcefff 100%);
   color: var(--text);
 }
 
@@ -34,7 +36,8 @@ body {
   letter-spacing: 0.5px;
 }
 
-.card.glass, .glass {
+.card.glass,
+.glass {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 18px;
@@ -54,7 +57,8 @@ body {
   align-items: start;
 }
 
-.left-column, .right-column {
+.left-column,
+.right-column {
   width: 100%;
 }
 
@@ -64,7 +68,7 @@ body {
 }
 
 .location-card {
-  background: rgba(255,255,255,0.85);
+  background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 14px;
   text-align: center;
@@ -78,7 +82,7 @@ body {
   object-fit: cover;
   border-radius: 12px;
   margin: 8px 0;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .location-card .btn.full {
@@ -89,7 +93,7 @@ body {
 .video-wrapper {
   overflow: hidden;
   border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
 .invitation-text {
@@ -145,7 +149,7 @@ body {
 .response-card .status-message {
   padding-bottom: 8px;
   margin-bottom: 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .button-group {
@@ -182,7 +186,7 @@ body {
 .btn.primary {
   background: linear-gradient(135deg, var(--primary), #4fa3ff);
   color: white;
-  box-shadow: 0 8px 20px rgba(58,123,213,0.3);
+  box-shadow: 0 8px 20px rgba(58, 123, 213, 0.3);
 }
 
 .btn.secondary {
@@ -193,13 +197,13 @@ body {
 .btn.active-oui {
   background: #1e9e45;
   color: #fff;
-  box-shadow: 0 8px 20px rgba(30,158,69,0.35);
+  box-shadow: 0 8px 20px rgba(30, 158, 69, 0.35);
 }
 
 .btn.active-non {
   background: #e74c3c;
   color: #fff;
-  box-shadow: 0 8px 20px rgba(231,76,60,0.35);
+  box-shadow: 0 8px 20px rgba(231, 76, 60, 0.35);
 }
 
 .btn.transparent {
@@ -215,8 +219,15 @@ body {
   border-radius: 14px;
 }
 
-.btn.danger { background: #e74c3c; color: #fff; }
-.btn.success { background: #1e9e45; color: #fff; }
+.btn.danger {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.btn.success {
+  background: #1e9e45;
+  color: #fff;
+}
 
 .actions-cell .btn.tiny {
   display: block;
@@ -253,6 +264,15 @@ body {
   background: #25d366;
   color: white;
 }
+
+.btn.btn-whatsapp.transparent {
+  background: #ffffff;
+  color: var(--muted);
+  border-color: var(--border);
+  cursor: default;
+  opacity: 0.7;
+}
+
 
 .btn.full {
   width: 100%;
@@ -306,7 +326,7 @@ body {
   height: 80px;
   border-radius: 16px;
   object-fit: cover;
-  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .stat-card {
@@ -343,7 +363,7 @@ body {
   padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   outline: none;
 }
 
@@ -365,9 +385,10 @@ table {
   font-size: 0.95rem;
 }
 
-table th, table td {
+table th,
+table td {
   padding: 10px 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 table th {
@@ -377,14 +398,31 @@ table th {
 }
 
 table tr:hover td {
-  background: rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.5);
 }
 
-.status.oui { color: #1e9e45; font-weight: 700; }
-.status.non { color: #d63a3a; font-weight: 700; }
-.status.pending { color: #c89f2e; font-weight: 700; }
-.status-label.oui { color: #1e9e45; }
-.status-label.non { color: #d63a3a; }
+.status.oui {
+  color: #1e9e45;
+  font-weight: 700;
+}
+
+.status.non {
+  color: #d63a3a;
+  font-weight: 700;
+}
+
+.status.pending {
+  color: #c89f2e;
+  font-weight: 700;
+}
+
+.status-label.oui {
+  color: #1e9e45;
+}
+
+.status-label.non {
+  color: #d63a3a;
+}
 
 /* --- Compteur J-avant la fête --- */
 .countdown-box {
@@ -465,7 +503,8 @@ table tr:hover td {
     align-items: flex-start;
   }
 
-  table th, table td {
+  table th,
+  table td {
     white-space: nowrap;
   }
 }
