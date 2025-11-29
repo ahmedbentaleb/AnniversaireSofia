@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modifier invité - Sofia</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="admin-page">
+  <div class="container dashboard">
+    <header class="dashboard-header">
+      <div>
+        <h1>Modifier l'invité</h1>
+        <p>Connecté : <strong><%= adminEmail %></strong></p>
+      </div>
+      <a href="/admin/dashboard" class="btn ghost">Retour au dashboard</a>
+    </header>
+
+    <section class="card glass">
+      <form method="POST" action="/admin/guests/<%= guest.id %>/edit" class="form grid-2">
+        <div>
+          <label>Nom de l'enfant</label>
+          <input type="text" name="child_name" value="<%= guest.child_name %>" required />
+        </div>
+        <div>
+          <label>Nom du parent</label>
+          <input type="text" name="parent_name" value="<%= guest.parent_name %>" required />
+        </div>
+        <div>
+          <label>WhatsApp</label>
+          <input type="text" name="whatsapp" value="<%= guest.whatsapp %>" required />
+        </div>
+        <div class="full-row">
+          <button class="btn primary" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
+

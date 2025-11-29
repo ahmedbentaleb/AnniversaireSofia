@@ -7,6 +7,8 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 const dotenv = require('dotenv');
+const { sendRsvpNotificationEmail } = require('./services/emailService');
+const { getOrganizerRsvpWaUrl } = require('./services/whatsappService');
 
 dotenv.config();
 
@@ -15,6 +17,8 @@ const PORT = process.env.PORT || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'sofia-session-secret';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'changeme';
 const DB_PATH = path.join(__dirname, 'data', 'invitations.db');
+const INVITE_BASE_URL = process.env.INVITE_BASE_URL || `http://localhost:${PORT}`;
+const ORGANIZER_EMAIL = process.env.ORGANIZER_EMAIL || 'asmaaelhouboub@gmail.com';
 
 const ALLOWED_STATUSES = ['pending', 'oui', 'non'];
 
@@ -150,7 +154,46 @@ app.post('/api/rsvp', (req, res) => {
       if (this.changes === 0) {
         return res.status(404).json({ success: false, message: 'Invitation introuvable.' });
       }
-      return res.json({ success: true });
+
+      db.get('SELECT * FROM guests WHERE token = ?', [token], async (fetchErr, guest) => {
+        if (fetchErr || !guest) {
+          if (fetchErr) {
+            console.error('Error fetching guest after RSVP update:', fetchErr);
+          }
+          return res.json({ success: true });
+        }
+
+        const statusLabel = response === 'oui' ? 'CONFIRMÉ' : response === 'non' ? 'ANNULÉ' : 'EN ATTENTE';
+
+        if (response === 'oui' || response === 'non') {
+          try {
+            await sendRsvpNotificationEmail({
+              to: ORGANIZER_EMAIL,
+              subject:
+                response === 'oui'
+                  ? 'Nouvelle CONFIRMATION – Anniversaire Sofia'
+                  : 'Nouvelle ANNULATION – Anniversaire Sofia',
+              guestName: guest.child_name,
+              guestPhone: guest.whatsapp,
+              status: statusLabel,
+              respondedAt,
+              token,
+            });
+
+            const waUrl = getOrganizerRsvpWaUrl({
+              guestName: guest.child_name,
+              guestPhone: guest.whatsapp,
+              status: statusLabel,
+              respondedAt,
+            });
+            console.log('[RSVP] Organizer WhatsApp URL (ouvrir manuellement) :', waUrl);
+          } catch (notifyErr) {
+            console.error('Error sending RSVP notifications:', notifyErr);
+          }
+        }
+
+        return res.json({ success: true });
+      });
     }
   );
 });
@@ -212,12 +255,14 @@ app.get('/admin/dashboard', requireAdmin, (req, res) => {
           guests,
           stats: stats || { total: 0, oui: 0, non: 0, pending: 0 },
           adminEmail: req.session.adminEmail,
+          inviteBaseUrl: INVITE_BASE_URL,
         });
       }
     );
   });
 });
 
+// Create guest
 app.post('/admin/guests', requireAdmin, (req, res) => {
   const { child_name, parent_name, contact_email, whatsapp } = req.body;
   if (!child_name || !parent_name || !whatsapp) {
@@ -238,6 +283,41 @@ app.post('/admin/guests', requireAdmin, (req, res) => {
         return res.status(500).send('Erreur lors de la création.');
       }
       res.redirect('/admin/dashboard');
+    }
+  );
+});
+
+// Edit guest (form)
+app.get('/admin/guests/:id/edit', requireAdmin, (req, res) => {
+  const { id } = req.params;
+  db.get('SELECT * FROM guests WHERE id = ?', [id], (err, guest) => {
+    if (err) {
+      console.error('Error fetching guest for edit:', err);
+      return res.status(500).send('Erreur serveur.');
+    }
+    if (!guest) {
+      return res.status(404).send('Invité introuvable.');
+    }
+    return res.render('admin-edit-guest', { guest, adminEmail: req.session.adminEmail });
+  });
+});
+
+// Edit guest (submit)
+app.post('/admin/guests/:id/edit', requireAdmin, (req, res) => {
+  const { id } = req.params;
+  const { child_name, parent_name, whatsapp } = req.body;
+  if (!child_name || !parent_name || !whatsapp) {
+    return res.status(400).send('Champs requis manquants.');
+  }
+  db.run(
+    'UPDATE guests SET child_name = ?, parent_name = ?, whatsapp = ? WHERE id = ?',
+    [child_name.trim(), parent_name.trim(), whatsapp.trim(), id],
+    (err) => {
+      if (err) {
+        console.error('Error updating guest:', err);
+        return res.status(500).send('Erreur lors de la mise à jour.');
+      }
+      return res.redirect('/admin/dashboard');
     }
   );
 });
@@ -282,3 +362,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
+

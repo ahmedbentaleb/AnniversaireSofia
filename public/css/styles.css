@@ -226,6 +226,12 @@ body {
   margin-bottom: 6px;
 }
 
+.actions-cell .btn.ghost {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background: #f5f8fb;
+}
+
 .btn.ghost {
   background: transparent;
   border: 1px solid var(--border);
@@ -276,6 +282,21 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 12px;
   margin-bottom: 16px;
+}
+
+.whatsapp-invite-hint {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.whatsapp-thumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.12);
 }
 
 .stat-card {

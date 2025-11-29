@@ -1,3 +1,5 @@
 node_modules/
 .env
 npm-debug.log
+data/invitations.db
+anniv.png

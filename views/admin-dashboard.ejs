@@ -58,6 +58,10 @@
 
     <section class="card glass">
       <h2>Invités</h2>
+      <div class="whatsapp-invite-hint">
+        <img src="/assets/whatsapp/invitation_whatsapp.jpg" alt="Invitation WhatsApp" class="whatsapp-thumb" />
+        <p>Utilisez le bouton WhatsApp pour envoyer une invitation personnalisée avec lien magique à chaque invité.</p>
+      </div>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -93,11 +97,23 @@
                   <a href="/invite/<%= guest.token %>" target="_blank" class="link-inline">/invite/<%= guest.token %></a>
                 </td>
                 <td>
+                  <% const cleanedPhone = (guest.whatsapp || '').replace(/[^0-9]/g, ''); %>
+                  <% const inviteUrl = inviteBaseUrl + '/invite/' + guest.token; %>
+                  <% const waMessage =
+                    "INVITATION – Anniversaire Sofia 🎂\\n\\n" +
+                    "Bonjour 👋, tu es invité à l’anniversaire de Sofia 🎉 !\\n" +
+                    "Date : samedi 6 décembre\\n" +
+                    "Lieu : Fantasy Parc\\n\\n" +
+                    "Pour confirmer ou annuler ta présence, clique ici :\\n" +
+                    inviteUrl + "\\n\\n" +
+                    "Hâte de te voir 🎂✨"; %>
                   <a class="btn btn-whatsapp"
-                     href="https://wa.me/<%= guest.whatsapp %>?text=<%= encodeURIComponent('Bonjour ! Voici l’invitation de Sofia 🎉❄️\\n\\nClique ici pour confirmer ta présence : https://localhost:3000/invite/' + guest.token) %>"
-                     target="_blank">📩 Envoyer WhatsApp</a>
+                     href="https://wa.me/<%= cleanedPhone %>?text=<%= encodeURIComponent(waMessage) %>"
+                     target="_blank"
+                     onclick="this.classList.add('transparent'); this.style.pointerEvents='none';">📲 Envoyer invitation</a>
                 </td>
                 <td class="actions-cell">
+                  <a href="/admin/guests/<%= guest.id %>/edit" class="btn tiny ghost">Modifier</a>
                   <form method="POST" action="/admin/guests/<%= guest.id %>/status" class="inline-form" onsubmit="return confirm('Confirmer la présence ?');">
                     <input type="hidden" name="status" value="oui" />
                     <button class="btn tiny success" type="submit">Confirmer</button>
