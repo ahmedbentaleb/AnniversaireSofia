@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin - Sofia</title>
   <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body class="admin-page">
   <div class="container dashboard">
     <header class="dashboard-header">
       <div>
         <h1>Dashboard Invitations</h1>
-        <p>Connecté : <strong><%= adminEmail %></strong></p>
+        <p>Connecté : <strong>
+            <%= adminEmail %>
+          </strong></p>
       </div>
       <a href="/admin/logout" class="btn ghost">Se déconnecter</a>
     </header>
@@ -19,19 +23,27 @@
     <section class="stats-grid">
       <div class="stat-card glass">
         <span>Total</span>
-        <strong><%= stats.total || 0 %></strong>
+        <strong>
+          <%= stats.total || 0 %>
+        </strong>
       </div>
       <div class="stat-card glass">
         <span>Oui</span>
-        <strong><%= stats.oui || 0 %></strong>
+        <strong>
+          <%= stats.oui || 0 %>
+        </strong>
       </div>
       <div class="stat-card glass">
         <span>Non</span>
-        <strong><%= stats.non || 0 %></strong>
+        <strong>
+          <%= stats.non || 0 %>
+        </strong>
       </div>
       <div class="stat-card glass">
         <span>En attente</span>
-        <strong><%= stats.pending || 0 %></strong>
+        <strong>
+          <%= stats.pending || 0 %>
+        </strong>
       </div>
     </section>
 
@@ -79,72 +91,83 @@
             </tr>
           </thead>
           <tbody>
-            <% if (guests.length === 0) { %>
+            <% if (guests.length===0) { %>
               <tr>
                 <td colspan="10" style="text-align:center;">Aucun invité pour le moment.</td>
               </tr>
-            <% } %>
-            <% guests.forEach((guest, idx) => { %>
-              <tr>
-                <td><%= idx + 1 %></td>
-                <td><%= guest.child_name %></td>
-                <td><%= guest.parent_name %></td>
-                <td><%= guest.whatsapp %></td>
-                <td class="status <%= guest.status %>"><%= guest.status || 'pending' %></td>
-                <td><%= guest.created_at ? new Date(guest.created_at).toLocaleString('fr-FR') : '-' %></td>
-                <td><%= guest.responded_at ? new Date(guest.responded_at).toLocaleString('fr-FR') : '-' %></td>
-                <td>
-                  <a href="/invite/<%= guest.token %>" target="_blank" class="link-inline">/invite/<%= guest.token %></a>
-                </td>
-                <td>
-                  <% const cleanedRaw = (guest.whatsapp || '').replace(/[^0-9]/g, ''); %>
-                  <% const cleanedPhone = cleanedRaw.replace(/^00/, ''); %>
-                  <% const inviteUrl = inviteBaseUrl + '/invite/' + guest.token; %>
-                  <% const waMessage = [
-                    "INVITATION - Anniversaire de Sofia",
-                    "",
-                    "Bonjour, tu es invite a l anniversaire de Sofia !",
-                    "Date : samedi 6 decembre",
-                    "Lieu : Fantazy Park",
-                    "",
-                    "Pour voir ton invitation et confirmer ta presence, clique sur ce lien :",
-                    inviteUrl,
-                    "",
-                    "Hate de te voir !"
-                  ].join('\n'); %>
-                  <% const waUrl = 'https://wa.me/' + cleanedPhone + '?text=' + encodeURIComponent(waMessage); %>
-                  <a class="btn btn-whatsapp"
-                     href="<%= waUrl %>"
-                     target="_blank"
-                     onclick="this.classList.add('transparent'); this.style.pointerEvents='none';">Envoyer invitation</a>
-                  <div class="resend-whatsapp">
-                    <a href="<%= waUrl %>"
-                       target="_blank"
-                       onclick='return confirm("Renvoyer cette invitation WhatsApp à cet invité ?");'>
-                      Renvoyer sur WhatsApp
-                    </a>
-                  </div>
-                </td>
-                <td class="actions-cell">
-                  <a href="/admin/guests/<%= guest.id %>/edit" class="btn tiny ghost">Modifier</a>
-                  <form method="POST" action="/admin/guests/<%= guest.id %>/status" class="inline-form" onsubmit="return confirm('Confirmer la présence ?');">
-                    <input type="hidden" name="status" value="oui" />
-                    <button class="btn tiny success" type="submit">Confirmer</button>
-                  </form>
-                  <form method="POST" action="/admin/guests/<%= guest.id %>/status" class="inline-form" onsubmit="return confirm('Marquer comme NON ?');">
-                    <input type="hidden" name="status" value="non" />
-                    <button class="btn tiny secondary" type="submit">Refuser</button>
-                  </form>
-                  <form method="POST" action="/admin/guests/<%= guest.id %>/delete" class="inline-form" onsubmit="return confirm('Supprimer cet invité ?');">
-                    <button class="btn tiny danger" type="submit">Supprimer</button>
-                  </form>
-                </td>
-              </tr>
-            <% }) %>
+              <% } %>
+                <% guests.forEach((guest, idx)=> { %>
+                  <tr>
+                    <td>
+                      <%= idx + 1 %>
+                    </td>
+                    <td>
+                      <%= guest.child_name %>
+                    </td>
+                    <td>
+                      <%= guest.parent_name %>
+                    </td>
+                    <td>
+                      <%= guest.whatsapp %>
+                    </td>
+                    <td class="status <%= guest.status %>">
+                      <%= guest.status || 'pending' %>
+                    </td>
+                    <td>
+                      <%= guest.created_at ? new Date(guest.created_at).toLocaleString('fr-FR') : '-' %>
+                    </td>
+                    <td>
+                      <%= guest.responded_at ? new Date(guest.responded_at).toLocaleString('fr-FR') : '-' %>
+                    </td>
+                    <td>
+                      <a href="/invite/<%= guest.token %>" target="_blank" class="link-inline">/invite/<%= guest.token
+                          %></a>
+                    </td>
+                    <td>
+                      <% const cleanedRaw=(guest.whatsapp || '' ).replace(/[^0-9]/g, '' ); %>
+                        <% const cleanedPhone=cleanedRaw.replace(/^00/, '' ); %>
+                          <% const inviteUrl=inviteBaseUrl + '/invite/' + guest.token; %>
+                            <% const waMessage=[ "INVITATION - Anniversaire de Sofia" , ""
+                              , "Bonjour, tu es invite a l anniversaire de Sofia !" , "Date : samedi 6 decembre"
+                              , "Lieu : Fantazy Park" , ""
+                              , "Pour voir ton invitation et confirmer ta presence, clique sur ce lien :" , inviteUrl
+                              + '?v=2' , "" , "Hate de te voir !" ].join('\n'); %>
+                              <% const waUrl='https://wa.me/' + cleanedPhone + '?text=' + encodeURIComponent(waMessage);
+                                %>
+                                <a class="btn btn-whatsapp" href="<%= waUrl %>" target="_blank"
+                                  onclick="this.classList.add('transparent'); this.style.pointerEvents='none';">Envoyer
+                                  invitation</a>
+                                <div class="resend-whatsapp">
+                                  <a href="<%= waUrl %>" target="_blank"
+                                    onclick='return confirm("Renvoyer cette invitation WhatsApp à cet invité ?");'>
+                                    Renvoyer sur WhatsApp
+                                  </a>
+                                </div>
+                    </td>
+                    <td class="actions-cell">
+                      <a href="/admin/guests/<%= guest.id %>/edit" class="btn tiny ghost">Modifier</a>
+                      <form method="POST" action="/admin/guests/<%= guest.id %>/status" class="inline-form"
+                        onsubmit="return confirm('Confirmer la présence ?');">
+                        <input type="hidden" name="status" value="oui" />
+                        <button class="btn tiny success" type="submit">Confirmer</button>
+                      </form>
+                      <form method="POST" action="/admin/guests/<%= guest.id %>/status" class="inline-form"
+                        onsubmit="return confirm('Marquer comme NON ?');">
+                        <input type="hidden" name="status" value="non" />
+                        <button class="btn tiny secondary" type="submit">Refuser</button>
+                      </form>
+                      <form method="POST" action="/admin/guests/<%= guest.id %>/delete" class="inline-form"
+                        onsubmit="return confirm('Supprimer cet invité ?');">
+                        <button class="btn tiny danger" type="submit">Supprimer</button>
+                      </form>
+                    </td>
+                  </tr>
+                  <% }) %>
           </tbody>
         </table>
       </div>
     </section>
   </div>
 </body>
+
 </html>
