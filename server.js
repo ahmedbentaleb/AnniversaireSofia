@@ -131,6 +131,7 @@ app.get('/invite/:token', (req, res) => {
       child_name: guest.child_name,
       token: guest.token,
       status: guest.status,
+      inviteBaseUrl: INVITE_BASE_URL,
     });
   });
 });
@@ -362,4 +363,3 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
-

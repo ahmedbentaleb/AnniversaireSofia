@@ -232,6 +232,16 @@ body {
   background: #f5f8fb;
 }
 
+.resend-whatsapp {
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+.resend-whatsapp a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
 .btn.ghost {
   background: transparent;
   border: 1px solid var(--border);

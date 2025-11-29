@@ -97,20 +97,33 @@
                   <a href="/invite/<%= guest.token %>" target="_blank" class="link-inline">/invite/<%= guest.token %></a>
                 </td>
                 <td>
-                  <% const cleanedPhone = (guest.whatsapp || '').replace(/[^0-9]/g, ''); %>
+                  <% const cleanedRaw = (guest.whatsapp || '').replace(/[^0-9]/g, ''); %>
+                  <% const cleanedPhone = cleanedRaw.replace(/^00/, ''); %>
                   <% const inviteUrl = inviteBaseUrl + '/invite/' + guest.token; %>
-                  <% const waMessage =
-                    "INVITATION – Anniversaire Sofia 🎂\\n\\n" +
-                    "Bonjour 👋, tu es invité à l’anniversaire de Sofia 🎉 !\\n" +
-                    "Date : samedi 6 décembre\\n" +
-                    "Lieu : Fantasy Parc\\n\\n" +
-                    "Pour confirmer ou annuler ta présence, clique ici :\\n" +
-                    inviteUrl + "\\n\\n" +
-                    "Hâte de te voir 🎂✨"; %>
+                  <% const waMessage = [
+                    "INVITATION - Anniversaire de Sofia",
+                    "",
+                    "Bonjour, tu es invite a l anniversaire de Sofia !",
+                    "Date : samedi 6 decembre",
+                    "Lieu : Fantazy Park",
+                    "",
+                    "Pour voir ton invitation et confirmer ta presence, clique sur ce lien :",
+                    inviteUrl,
+                    "",
+                    "Hate de te voir !"
+                  ].join('\n'); %>
+                  <% const waUrl = 'https://wa.me/' + cleanedPhone + '?text=' + encodeURIComponent(waMessage); %>
                   <a class="btn btn-whatsapp"
-                     href="https://wa.me/<%= cleanedPhone %>?text=<%= encodeURIComponent(waMessage) %>"
+                     href="<%= waUrl %>"
                      target="_blank"
-                     onclick="this.classList.add('transparent'); this.style.pointerEvents='none';">📲 Envoyer invitation</a>
+                     onclick="this.classList.add('transparent'); this.style.pointerEvents='none';">Envoyer invitation</a>
+                  <div class="resend-whatsapp">
+                    <a href="<%= waUrl %>"
+                       target="_blank"
+                       onclick='return confirm("Renvoyer cette invitation WhatsApp à cet invité ?");'>
+                      Renvoyer sur WhatsApp
+                    </a>
+                  </div>
                 </td>
                 <td class="actions-cell">
                   <a href="/admin/guests/<%= guest.id %>/edit" class="btn tiny ghost">Modifier</a>
