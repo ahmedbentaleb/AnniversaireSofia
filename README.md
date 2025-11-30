@@ -1,13 +1,13 @@
 # Anniversaire Sofia - Invitations
 
-Application Express + EJS + SQLite pour gérer les invitations personnalisées à l’anniversaire de Sofia (vidéo + RSVP + dashboard admin).
+Application Express + EJS + PostgreSQL pour gérer les invitations personnalisées à l’anniversaire de Sofia (vidéo + RSVP + dashboard admin).
 
 ## Installation
 
 ```bash
 npm install
 cp .env.example .env
-# Editez .env et définissez ADMIN_PASSWORD
+# Éditez .env et définissez ADMIN_PASSWORD, DATABASE_URL et INVITE_BASE_URL
 npm run dev
 ```
 
@@ -24,10 +24,9 @@ npm run dev
 
 ## Structure
 
-- `server.js` : serveur Express, routes, sessions, SQLite
+- `server.js` : serveur Express, routes, sessions, PostgreSQL
 - `public/` : assets (CSS, JS, vidéo)
 - `views/` : vues EJS (invitation, admin)
-- `data/invitations.db` : base SQLite (créée au premier lancement)
 
 ## Notes
 
